@@ -104,7 +104,7 @@ class FormulaInputPane:VBox()
 
                     try
                     {
-                        proposition = formulaTreeFactory.parse(formulaEntry.formula.trim().split(" "))
+                        proposition = formulaTreeFactory.parse(formulaEntry.formula.trim().split(Regex("[ ]+")))
                     }
                     catch (ex:Exception)
                     {
