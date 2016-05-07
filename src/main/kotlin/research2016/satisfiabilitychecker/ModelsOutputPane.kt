@@ -31,8 +31,8 @@ internal class ModelsOutputPane:HBox()
                 trueSituationsDisplay.text = value.trueSituations
                     .map()
                     {
-                        val strings = it.propositionValues.entries
-                            .sortedBy {it.key}
+                        val strings = it.entries
+                            .sortedBy {it.key.friendly}
                             .map()
                             {
                                 if (it.value)
@@ -51,8 +51,8 @@ internal class ModelsOutputPane:HBox()
                 falseSituationsDisplay.text = value.falseSituations
                     .map()
                     {
-                        val strings = it.propositionValues.entries
-                            .sortedBy {it.key}
+                        val strings = it.entries
+                            .sortedBy {it.key.friendly}
                             .map()
                             {
                                 if (it.value)

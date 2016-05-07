@@ -179,9 +179,9 @@ class FormulaInputPane:VBox()
                 val preprocessedWord = word.toLowerCase().trim()
                 return when
                 {
-                    Pattern.matches("(1){1}",preprocessedWord) -> Tautology()
-                    Pattern.matches("(0){1}",preprocessedWord) -> Contradiction()
-                    Pattern.matches("[a-z]{1}",preprocessedWord) -> BasicProposition(preprocessedWord)
+                    Pattern.matches("(1){1}",preprocessedWord) -> Tautology
+                    Pattern.matches("(0){1}",preprocessedWord) -> Contradiction
+                    Pattern.matches("[a-z]{1}",preprocessedWord) -> BasicProposition.make(preprocessedWord)
                     else -> throw IllegalArgumentException("unrecognized token: $word")
                 }
             }

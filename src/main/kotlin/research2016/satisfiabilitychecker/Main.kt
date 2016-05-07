@@ -33,15 +33,16 @@ fun findModelsAndPublishUnlessInterrupted() = synchronized(gui)
     // abort previous calculation
     workerThread.interrupt()
     gui.output = null
+    println("interrupting...")
 
     // commence new calculation
-    val allPropositions = gui.propositions.fold<Proposition,Proposition>(Tautology())
-    {
-        result,nextProposition ->
-        return@fold And(result,nextProposition)
-    }
     workerThread = thread(isDaemon = true)
     {
+        val allPropositions = gui.propositions.fold<Proposition,Proposition>(Tautology)
+        {
+            result,nextProposition ->
+            return@fold And(result,nextProposition)
+        }
         val models = allPropositions.models
         if (!Thread.interrupted())
         {
