@@ -60,7 +60,7 @@ class GUI:Application()
 
         // configure the scene (inside the window)
         val borderPane = BorderPane()
-        primaryStage.scene = Scene(borderPane,500.0,500.0)
+        primaryStage.scene = Scene(borderPane,800.0,500.0)
         primaryStage.minWidth = 500.0
         primaryStage.minHeight = 500.0
         primaryStage.scene.stylesheets.add(CSS.FILE_PATH)
@@ -77,6 +77,7 @@ class GUI:Application()
 
         // hook stuff up to each other: forwarding pane
         formulaInputPane.listener = forwardingPaneListener
+        modelsOutputPane.requestFocus()
 
         // release count down latch...
         releasedOnApplicationStarted.countDown()
