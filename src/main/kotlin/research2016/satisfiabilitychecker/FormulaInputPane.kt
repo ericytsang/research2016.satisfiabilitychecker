@@ -131,7 +131,7 @@ class FormulaInputPane:VBox()
                 // sync up the addressPairs map: resolve current address pairs
                 val allAddressPairs = formulaEntries
                     .filter {it.error == false}
-                    .mapNotNull {try {formulaTreeFactory.parse(it.formula.split(" "))} catch (ex:Exception) {null}}
+                    .mapNotNull {try {formulaTreeFactory.parse(it.formula.trim().split(Regex("[ ]+")))} catch (ex:Exception) {null}}
 
                 // sync up the addressPairs map: remove old entries
                 val toRemove = _propositions.filter {it !in allAddressPairs}
