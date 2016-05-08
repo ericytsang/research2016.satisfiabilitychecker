@@ -34,7 +34,6 @@ fun findModelsAndPublishUnlessInterrupted() = synchronized(gui)
     // abort previous calculation
     workerThread.interrupt()
     gui.output = null
-    println("interrupting...")
 
     // commence new calculation
     workerThread = thread(isDaemon = true)
