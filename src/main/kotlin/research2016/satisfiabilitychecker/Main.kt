@@ -2,6 +2,7 @@ package research2016.satisfiabilitychecker
 
 import research2016.propositionallogic.And
 import research2016.propositionallogic.Proposition
+import research2016.propositionallogic.Situation
 import research2016.propositionallogic.Tautology
 import research2016.propositionallogic.models
 import kotlin.concurrent.thread
@@ -44,9 +45,10 @@ fun findModelsAndPublishUnlessInterrupted() = synchronized(gui)
             return@fold And(result,nextProposition)
         }
         val models = allPropositions.models
+        val trueSituations = models.trueSituations.firstOrNull()?.let {setOf(it)} ?: emptySet<Situation>()
         if (!Thread.interrupted())
         {
-            gui.output = models
+            gui.output = trueSituations
         }
     }
 }

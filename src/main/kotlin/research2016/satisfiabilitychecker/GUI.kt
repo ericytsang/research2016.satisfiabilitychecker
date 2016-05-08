@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane
 import javafx.stage.Stage
 import research2016.propositionallogic.Models
 import research2016.propositionallogic.Proposition
+import research2016.propositionallogic.Situation
 import java.util.concurrent.CountDownLatch
 
 private var _gui:GUI? = null
@@ -86,11 +87,11 @@ class GUI:Application()
     val propositions:Set<Proposition>
         get() = formulaInputPane.propositions
 
-    var output:Models?
-        get() = modelsOutputPane.models
+    var output:Set<Situation>?
+        get() = modelsOutputPane.trueSituations
         set(value)
         {
-            Platform.runLater {modelsOutputPane.models = value}
+            Platform.runLater {modelsOutputPane.trueSituations = value}
         }
 
     /**

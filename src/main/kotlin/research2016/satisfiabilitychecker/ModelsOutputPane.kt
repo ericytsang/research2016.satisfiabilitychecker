@@ -6,30 +6,32 @@ import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.scene.text.Font
 import research2016.propositionallogic.Models
+import research2016.propositionallogic.Situation
 
 internal class ModelsOutputPane:HBox()
 {
-    private val TRUE_SITUATIONS_LABEL:String = "true situations: "
-    private val FALSE_SITUATIONS_LABEL:String = "false situations: "
+    private val IS_SATISFIABLE_LABEL:String = "satisfiable: "
+    private val A_MODEL_LABEL:String = "a model: "
 
     private val NULL_MODEL_TEXT = "loading..."
 
-    private val trueSituationsDisplay = LabledText(TRUE_SITUATIONS_LABEL)
-    private val falseSituationsDisplay = LabledText(FALSE_SITUATIONS_LABEL)
+    private val isSatisfiableDisplay = LabledText(IS_SATISFIABLE_LABEL)
+    private val aModelDisplay = LabledText(A_MODEL_LABEL)
 
-    var models:Models? = null
+    var trueSituations:Set<Situation>? = null
 
         set(value)
         {
             if (value == null)
             {
-                trueSituationsDisplay.text = NULL_MODEL_TEXT
-                falseSituationsDisplay.text = NULL_MODEL_TEXT
+                isSatisfiableDisplay.text = NULL_MODEL_TEXT
+                aModelDisplay.text = NULL_MODEL_TEXT
             }
             else
             {
-                trueSituationsDisplay.text = value.trueSituations
-                    .map()
+                isSatisfiableDisplay.text = value.isNotEmpty().toString()
+                aModelDisplay.text = value.firstOrNull()
+                    ?.let()
                     {
                         val strings = it.entries
                             .sortedBy {it.key.friendly}
@@ -45,29 +47,7 @@ internal class ModelsOutputPane:HBox()
                                 }
                             }
                         strings.joinToString("")
-                    }
-                    .sorted()
-                    .joinToString(separator = "\n")
-                falseSituationsDisplay.text = value.falseSituations
-                    .map()
-                    {
-                        val strings = it.entries
-                            .sortedBy {it.key.friendly}
-                            .map()
-                            {
-                                if (it.value)
-                                {
-                                    "  ${it.key}"
-                                }
-                                else
-                                {
-                                    " !${it.key}"
-                                }
-                            }
-                        strings.joinToString("")
-                    }
-                    .sorted()
-                    .joinToString(separator = "\n")
+                    } ?: "N/A"
             }
             field = value
         }
@@ -78,9 +58,9 @@ internal class ModelsOutputPane:HBox()
         padding = Insets(Dimens.KEYLINE_SMALL.toDouble())
 
         // configure & add child nodes
-        children.add(trueSituationsDisplay.node)
-        trueSituationsDisplay.node.padding = Insets(0.0,Dimens.KEYLINE_MEDIUM.toDouble(),0.0,0.0)
-        children.add(falseSituationsDisplay.node)
+        children.add(isSatisfiableDisplay.node)
+        isSatisfiableDisplay.node.padding = Insets(0.0,Dimens.KEYLINE_MEDIUM.toDouble(),0.0,0.0)
+        children.add(aModelDisplay.node)
     }
 }
 
