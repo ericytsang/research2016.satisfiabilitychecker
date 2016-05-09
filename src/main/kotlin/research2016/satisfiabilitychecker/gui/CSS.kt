@@ -1,4 +1,4 @@
-package research2016.satisfiabilitychecker
+package research2016.satisfiabilitychecker.gui
 
 object CSS
 {

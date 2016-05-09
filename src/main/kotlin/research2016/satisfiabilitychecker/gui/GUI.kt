@@ -1,4 +1,4 @@
-package research2016.satisfiabilitychecker
+package research2016.satisfiabilitychecker.gui
 
 import javafx.application.Application
 import javafx.application.Platform

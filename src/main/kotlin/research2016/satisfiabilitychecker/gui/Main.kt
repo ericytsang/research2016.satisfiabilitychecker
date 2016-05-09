@@ -1,4 +1,4 @@
-package research2016.satisfiabilitychecker
+package research2016.satisfiabilitychecker.gui
 
 import research2016.propositionallogic.And
 import research2016.propositionallogic.Proposition
@@ -12,7 +12,7 @@ import kotlin.concurrent.thread
  */
 fun main(args:Array<String>)
 {
-    thread {GUI.mainLoop()}
+    thread {GUI.Companion.mainLoop()}
     GUI.awaitInitialized()
     gui.listener = object:GUI.IListener
     {

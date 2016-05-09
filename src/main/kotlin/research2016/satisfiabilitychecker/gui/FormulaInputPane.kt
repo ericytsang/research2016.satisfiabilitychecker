@@ -1,4 +1,4 @@
-package research2016.satisfiabilitychecker
+package research2016.satisfiabilitychecker.gui
 
 import javafx.application.Platform
 import javafx.beans.InvalidationListener
@@ -181,7 +181,7 @@ class FormulaInputPane:VBox()
                 {
                     Pattern.matches("(1){1}",preprocessedWord) -> Tautology
                     Pattern.matches("(0){1}",preprocessedWord) -> Contradiction
-                    Pattern.matches("[a-z]{1}",preprocessedWord) -> BasicProposition.make(preprocessedWord)
+                    Pattern.matches("[a-z]{1}",preprocessedWord) -> BasicProposition.Companion.make(preprocessedWord)
                     else -> throw IllegalArgumentException("unrecognized token: $word")
                 }
             }
