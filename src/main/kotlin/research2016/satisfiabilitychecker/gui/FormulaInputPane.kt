@@ -21,6 +21,7 @@ import research2016.propositionallogic.Or
 import research2016.propositionallogic.Proposition
 import research2016.propositionallogic.Tautology
 import research2016.propositionallogic.Xor
+import research2016.satisfiabilitychecker.core.propositionFactory
 import java.util.*
 import java.util.regex.Pattern
 
@@ -104,7 +105,7 @@ class FormulaInputPane:VBox()
 
                     try
                     {
-                        proposition = formulaTreeFactory.parse(formulaEntry.formula.trim().split(Regex("[ ]+")))
+                        proposition = propositionFactory.parse(formulaEntry.formula.trim().split(Regex("[ ]+")))
                     }
                     catch (ex:Exception)
                     {
@@ -131,7 +132,8 @@ class FormulaInputPane:VBox()
                 // sync up the addressPairs map: resolve current address pairs
                 val allAddressPairs = formulaEntries
                     .filter {it.error == false}
-                    .mapNotNull {try {formulaTreeFactory.parse(it.formula.trim().split(Regex("[ ]+")))} catch (ex:Exception) {null}}
+                    .mapNotNull {try {
+                        propositionFactory.parse(it.formula.trim().split(Regex("[ ]+")))} catch (ex:Exception) {null}}
 
                 // sync up the addressPairs map: remove old entries
                 val toRemove = _propositions.filter {it !in allAddressPairs}
@@ -145,63 +147,6 @@ class FormulaInputPane:VBox()
             }
         }
     }
-
-    val formulaTreeFactory = FormulaTreeFactory(
-
-        object:FormulaTreeFactory.TokenInterpreter
-        {
-            override fun parse(word:String):FormulaTreeFactory.Symbol
-            {
-                val preprocessedWord = word.toLowerCase().trim()
-                return when
-                {
-                    Pattern.matches("(iff){1}",preprocessedWord) -> FormulaTreeFactory.Symbol(Type.OPERATOR,2,1)
-                    Pattern.matches("(then){1}",preprocessedWord) -> FormulaTreeFactory.Symbol(Type.OPERATOR,2,2)
-                    Pattern.matches("(or){1}",preprocessedWord) ||
-                        Pattern.matches("(xor){1}",preprocessedWord) -> FormulaTreeFactory.Symbol(Type.OPERATOR,2,3)
-                    Pattern.matches("(and){1}",preprocessedWord) ||
-                        Pattern.matches("(nand){1}",preprocessedWord) -> FormulaTreeFactory.Symbol(Type.OPERATOR,2,4)
-                    Pattern.matches("(not){1}",preprocessedWord) -> FormulaTreeFactory.Symbol(Type.OPERATOR,1,5)
-                    Pattern.matches("(1){1}",preprocessedWord) ||
-                        Pattern.matches("(0){1}",preprocessedWord) ||
-                        Pattern.matches("[a-z]{1}",preprocessedWord) -> FormulaTreeFactory.Symbol(Type.OPERAND,0,0)
-                    Pattern.matches("[(]{1}",preprocessedWord) -> FormulaTreeFactory.Symbol(Type.OPENING_PARENTHESIS,0,0)
-                    Pattern.matches("[)]{1}",preprocessedWord) -> FormulaTreeFactory.Symbol(Type.CLOSING_PARENTHESIS,0,0)
-                    else -> throw IllegalArgumentException("unrecognized token: $word")
-                }
-            }
-        },
-
-        object:FormulaTreeFactory.OperandFactory<Proposition>
-        {
-            override fun parse(word:String):Proposition
-            {
-                val preprocessedWord = word.toLowerCase().trim()
-                return when
-                {
-                    Pattern.matches("(1){1}",preprocessedWord) -> Tautology
-                    Pattern.matches("(0){1}",preprocessedWord) -> Contradiction
-                    Pattern.matches("[a-z]{1}",preprocessedWord) -> BasicProposition.Companion.make(preprocessedWord)
-                    else -> throw IllegalArgumentException("unrecognized token: $word")
-                }
-            }
-
-            override fun parse(word:String,operands:List<Proposition>):Proposition
-            {
-                val preprocessedWord = word.toLowerCase().trim()
-                return when
-                {
-                    Pattern.matches("(iff){1}",preprocessedWord) -> Iff(operands.first(),operands.last())
-                    Pattern.matches("(then){1}",preprocessedWord) -> Oif(operands.first(),operands.last())
-                    Pattern.matches("(or){1}",preprocessedWord) -> Or(operands.first(),operands.last())
-                    Pattern.matches("(xor){1}",preprocessedWord) -> Xor(operands.first(),operands.last())
-                    Pattern.matches("(and){1}",preprocessedWord) -> And(operands.first(),operands.last())
-                    Pattern.matches("(nand){1}",preprocessedWord) -> Nand(operands.first(),operands.last())
-                    Pattern.matches("(not){1}",preprocessedWord) -> Not(operands.single())
-                    else -> throw IllegalArgumentException("unrecognized token: $word")
-                }
-            }
-        })
 }
 
 private class FormulaEntry():VBox()
