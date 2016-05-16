@@ -1,13 +1,14 @@
 package research2016.satisfiabilitychecker.cli
 
 import research2016.propositionallogic.models
+import research2016.satisfiabilitychecker.core.prepareForPropositionFactory
 import research2016.satisfiabilitychecker.core.propositionFactory
 
 fun main(args:Array<String>)
 {
     try
     {
-        val tokens = args[0].split(Regex("[ ]+"))
+        val tokens = prepareForPropositionFactory(args[0])
         val proposition = propositionFactory.parse(tokens)
         val model = proposition.models.trueSituations.firstOrNull()
         println(model ?: "unsatisfiable")

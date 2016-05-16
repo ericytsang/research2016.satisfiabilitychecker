@@ -21,6 +21,7 @@ import research2016.propositionallogic.Or
 import research2016.propositionallogic.Proposition
 import research2016.propositionallogic.Tautology
 import research2016.propositionallogic.Xor
+import research2016.satisfiabilitychecker.core.prepareForPropositionFactory
 import research2016.satisfiabilitychecker.core.propositionFactory
 import java.util.*
 import java.util.regex.Pattern
@@ -105,7 +106,7 @@ class FormulaInputPane:VBox()
 
                     try
                     {
-                        proposition = propositionFactory.parse(formulaEntry.formula.trim().split(Regex("[ ]+")))
+                        proposition = propositionFactory.parse(prepareForPropositionFactory(formulaEntry.formula))
                     }
                     catch (ex:Exception)
                     {
@@ -133,7 +134,7 @@ class FormulaInputPane:VBox()
                 val allAddressPairs = formulaEntries
                     .filter {it.error == false}
                     .mapNotNull {try {
-                        propositionFactory.parse(it.formula.trim().split(Regex("[ ]+")))} catch (ex:Exception) {null}}
+                        propositionFactory.parse(prepareForPropositionFactory(it.formula))} catch (ex:Exception) {null}}
 
                 // sync up the addressPairs map: remove old entries
                 val toRemove = _propositions.filter {it !in allAddressPairs}

@@ -7,6 +7,9 @@ import java.util.regex.Pattern
 /**
  * Created by Eric on 5/9/2016.
  */
+
+fun prepareForPropositionFactory(string:String):List<String> = string.replace("("," ( ").replace(")"," ) ").replace("-"," - ").trim().split(Regex("[ ]+"))
+
 val propositionFactory = FormulaTreeFactory(
 
     object:FormulaTreeFactory.TokenInterpreter
@@ -22,10 +25,10 @@ val propositionFactory = FormulaTreeFactory(
                     Pattern.matches("(xor){1}",preprocessedWord) -> FormulaTreeFactory.Symbol(FormulaTreeFactory.Symbol.Type.OPERATOR,2,3)
                 Pattern.matches("(and){1}",preprocessedWord) ||
                     Pattern.matches("(nand){1}",preprocessedWord) -> FormulaTreeFactory.Symbol(FormulaTreeFactory.Symbol.Type.OPERATOR,2,4)
-                Pattern.matches("(not){1}",preprocessedWord) -> FormulaTreeFactory.Symbol(FormulaTreeFactory.Symbol.Type.OPERATOR,1,5)
+                Pattern.matches("(-){1}",preprocessedWord) -> FormulaTreeFactory.Symbol(FormulaTreeFactory.Symbol.Type.OPERATOR,1,5)
                 Pattern.matches("(1){1}",preprocessedWord) ||
                     Pattern.matches("(0){1}",preprocessedWord) ||
-                    Pattern.matches("[a-z]{1}",preprocessedWord) -> FormulaTreeFactory.Symbol(FormulaTreeFactory.Symbol.Type.OPERAND,0,0)
+                    Pattern.matches("[a-zA-Z]+",preprocessedWord) -> FormulaTreeFactory.Symbol(FormulaTreeFactory.Symbol.Type.OPERAND,0,0)
                 Pattern.matches("[(]{1}",preprocessedWord) -> FormulaTreeFactory.Symbol(FormulaTreeFactory.Symbol.Type.OPENING_PARENTHESIS,0,0)
                 Pattern.matches("[)]{1}",preprocessedWord) -> FormulaTreeFactory.Symbol(FormulaTreeFactory.Symbol.Type.CLOSING_PARENTHESIS,0,0)
                 else -> throw IllegalArgumentException("unrecognized token: $word")
@@ -42,7 +45,7 @@ val propositionFactory = FormulaTreeFactory(
             {
                 Pattern.matches("(1){1}",preprocessedWord) -> Tautology
                 Pattern.matches("(0){1}",preprocessedWord) -> Contradiction
-                Pattern.matches("[a-z]{1}",preprocessedWord) -> BasicProposition.make(preprocessedWord)
+                Pattern.matches("[a-zA-Z]+",preprocessedWord) -> BasicProposition.make(preprocessedWord)
                 else -> throw IllegalArgumentException("unrecognized token: $word")
             }
         }
@@ -58,7 +61,7 @@ val propositionFactory = FormulaTreeFactory(
                 Pattern.matches("(xor){1}",preprocessedWord) -> Xor(operands.first(),operands.last())
                 Pattern.matches("(and){1}",preprocessedWord) -> And(operands.first(),operands.last())
                 Pattern.matches("(nand){1}",preprocessedWord) -> Nand(operands.first(),operands.last())
-                Pattern.matches("(not){1}",preprocessedWord) -> Not(operands.single())
+                Pattern.matches("(-){1}",preprocessedWord) -> Not(operands.single())
                 else -> throw IllegalArgumentException("unrecognized token: $word")
             }
         }
