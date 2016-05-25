@@ -4,6 +4,7 @@ import research2016.propositionallogic.And
 import research2016.propositionallogic.Proposition
 import research2016.propositionallogic.Situation
 import research2016.propositionallogic.Tautology
+import research2016.propositionallogic.and
 import research2016.propositionallogic.models
 import kotlin.concurrent.thread
 
@@ -41,13 +42,16 @@ fun findModelsAndPublishUnlessInterrupted() = synchronized(gui)
         val allPropositions = gui.propositions.fold<Proposition,Proposition>(Tautology)
         {
             result,nextProposition ->
-            return@fold And(result,nextProposition)
+            return@fold result and nextProposition
         }
         val models = allPropositions.models
-        val trueSituations = models.trueSituations.firstOrNull()?.let {setOf(it)} ?: emptySet<Situation>()
-        if (!Thread.interrupted())
+        val trueSituations = models.firstOrNull()?.let {setOf(it)} ?: emptySet<Situation>()
+        synchronized(gui)
         {
-            gui.output = trueSituations
+            if (!Thread.interrupted())
+            {
+                gui.output = trueSituations
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ fun main(args:Array<String>)
     {
         val tokens = prepareForPropositionFactory(args[0])
         val proposition = propositionFactory.parse(tokens)
-        val model = proposition.models.trueSituations.firstOrNull()
+        val model = proposition.models.firstOrNull()
         println(model ?: "unsatisfiable")
     }
     catch (ex:ArrayIndexOutOfBoundsException)
