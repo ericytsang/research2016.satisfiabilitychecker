@@ -1,12 +1,11 @@
-package research2016.satisfiabilitychecker.gui
+package com.github.ericytsang.research2016.satisfiabilitychecker.gui
 
 import javafx.geometry.Insets
 import javafx.scene.control.Label
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.scene.text.Font
-import research2016.propositionallogic.Models
-import research2016.propositionallogic.Situation
+import com.github.ericytsang.research2016.propositionallogic.State
 
 internal class ModelsOutputPane:HBox()
 {
@@ -18,7 +17,7 @@ internal class ModelsOutputPane:HBox()
     private val isSatisfiableDisplay = LabledText(IS_SATISFIABLE_LABEL)
     private val aModelDisplay = LabledText(A_MODEL_LABEL)
 
-    var trueSituations:Set<Situation>? = null
+    var trueSituations:Set<State>? = null
 
         set(value)
         {

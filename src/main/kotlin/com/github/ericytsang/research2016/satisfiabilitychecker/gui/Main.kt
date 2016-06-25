@@ -1,11 +1,10 @@
-package research2016.satisfiabilitychecker.gui
+package com.github.ericytsang.research2016.satisfiabilitychecker.gui
 
-import research2016.propositionallogic.And
-import research2016.propositionallogic.Proposition
-import research2016.propositionallogic.Situation
-import research2016.propositionallogic.Tautology
-import research2016.propositionallogic.and
-import research2016.propositionallogic.models
+import com.github.ericytsang.research2016.propositionallogic.Proposition
+import com.github.ericytsang.research2016.propositionallogic.State
+import com.github.ericytsang.research2016.propositionallogic.tautology
+import com.github.ericytsang.research2016.propositionallogic.and
+import com.github.ericytsang.research2016.propositionallogic.models
 import kotlin.concurrent.thread
 
 /**
@@ -39,13 +38,13 @@ fun findModelsAndPublishUnlessInterrupted() = synchronized(gui)
     // commence new calculation
     workerThread = thread(isDaemon = true)
     {
-        val allPropositions = gui.propositions.fold<Proposition,Proposition>(Tautology)
+        val allPropositions = gui.propositions.fold<Proposition,Proposition>(tautology)
         {
             result,nextProposition ->
             return@fold result and nextProposition
         }
         val models = allPropositions.models
-        val trueSituations = models.firstOrNull()?.let {setOf(it)} ?: emptySet<Situation>()
+        val trueSituations = models.firstOrNull()?.let {setOf(it)} ?: emptySet<State>()
         synchronized(gui)
         {
             if (!Thread.interrupted())

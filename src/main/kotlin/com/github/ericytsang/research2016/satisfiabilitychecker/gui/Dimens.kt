@@ -1,4 +1,4 @@
-package research2016.satisfiabilitychecker.gui
+package com.github.ericytsang.research2016.satisfiabilitychecker.gui
 
 internal object Dimens
 {

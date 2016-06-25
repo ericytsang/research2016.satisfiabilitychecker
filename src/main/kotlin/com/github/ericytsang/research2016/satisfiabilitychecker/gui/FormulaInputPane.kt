@@ -1,4 +1,4 @@
-package research2016.satisfiabilitychecker.gui
+package com.github.ericytsang.research2016.satisfiabilitychecker.gui
 
 import javafx.application.Platform
 import javafx.beans.InvalidationListener
@@ -8,21 +8,20 @@ import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import javafx.scene.layout.VBox
 import javafx.scene.text.Font
-import lib.formulainterpreter.FormulaTreeFactory
-import lib.formulainterpreter.FormulaTreeFactory.Symbol.*
-import research2016.propositionallogic.And
-import research2016.propositionallogic.BasicProposition
-import research2016.propositionallogic.Contradiction
-import research2016.propositionallogic.Iff
-import research2016.propositionallogic.Nand
-import research2016.propositionallogic.Not
-import research2016.propositionallogic.Oif
-import research2016.propositionallogic.Or
-import research2016.propositionallogic.Proposition
-import research2016.propositionallogic.Tautology
-import research2016.propositionallogic.Xor
-import research2016.satisfiabilitychecker.core.prepareForPropositionFactory
-import research2016.satisfiabilitychecker.core.propositionFactory
+import com.github.ericytsang.lib.formulainterpreter.FormulaTreeFactory
+import com.github.ericytsang.lib.formulainterpreter.FormulaTreeFactory.Symbol.*
+import com.github.ericytsang.research2016.propositionallogic.And
+import com.github.ericytsang.research2016.propositionallogic.Variable
+import com.github.ericytsang.research2016.propositionallogic.contradiction
+import com.github.ericytsang.research2016.propositionallogic.Iff
+import com.github.ericytsang.research2016.propositionallogic.Nand
+import com.github.ericytsang.research2016.propositionallogic.Not
+import com.github.ericytsang.research2016.propositionallogic.Oif
+import com.github.ericytsang.research2016.propositionallogic.Or
+import com.github.ericytsang.research2016.propositionallogic.Proposition
+import com.github.ericytsang.research2016.propositionallogic.tautology
+import com.github.ericytsang.research2016.propositionallogic.Xor
+import com.github.ericytsang.research2016.propositionallogic.makeFrom
 import java.util.*
 import java.util.regex.Pattern
 
@@ -106,7 +105,7 @@ class FormulaInputPane:VBox()
 
                     try
                     {
-                        proposition = propositionFactory.parse(prepareForPropositionFactory(formulaEntry.formula))
+                        proposition = Proposition.makeFrom(formulaEntry.formula)
                     }
                     catch (ex:Exception)
                     {
@@ -133,8 +132,7 @@ class FormulaInputPane:VBox()
                 // sync up the addressPairs map: resolve current address pairs
                 val allAddressPairs = formulaEntries
                     .filter {it.error == false}
-                    .mapNotNull {try {
-                        propositionFactory.parse(prepareForPropositionFactory(it.formula))} catch (ex:Exception) {null}}
+                    .mapNotNull {try { Proposition.makeFrom(it.formula) } catch (ex:Exception) {null}}
 
                 // sync up the addressPairs map: remove old entries
                 val toRemove = _propositions.filter {it !in allAddressPairs}

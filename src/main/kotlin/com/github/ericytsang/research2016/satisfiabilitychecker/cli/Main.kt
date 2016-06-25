@@ -1,15 +1,14 @@
-package research2016.satisfiabilitychecker.cli
+package com.github.ericytsang.research2016.satisfiabilitychecker.cli
 
-import research2016.propositionallogic.models
-import research2016.satisfiabilitychecker.core.prepareForPropositionFactory
-import research2016.satisfiabilitychecker.core.propositionFactory
+import com.github.ericytsang.research2016.propositionallogic.Proposition
+import com.github.ericytsang.research2016.propositionallogic.makeFrom
+import com.github.ericytsang.research2016.propositionallogic.models
 
 fun main(args:Array<String>)
 {
     try
     {
-        val tokens = prepareForPropositionFactory(args[0])
-        val proposition = propositionFactory.parse(tokens)
+        val proposition = Proposition.makeFrom(args[0])
         val model = proposition.models.firstOrNull()
         println(model ?: "unsatisfiable")
     }

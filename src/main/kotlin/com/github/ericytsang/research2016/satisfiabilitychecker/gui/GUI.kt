@@ -1,14 +1,13 @@
-package research2016.satisfiabilitychecker.gui
+package com.github.ericytsang.research2016.satisfiabilitychecker.gui
 
+import com.github.ericytsang.research2016.propositionallogic.Proposition
+import com.github.ericytsang.research2016.propositionallogic.State
 import javafx.application.Application
 import javafx.application.Platform
 import javafx.scene.Scene
 import javafx.scene.control.ScrollPane
 import javafx.scene.layout.BorderPane
 import javafx.stage.Stage
-import research2016.propositionallogic.Models
-import research2016.propositionallogic.Proposition
-import research2016.propositionallogic.Situation
 import java.util.concurrent.CountDownLatch
 
 private var _gui:GUI? = null
@@ -87,7 +86,7 @@ class GUI:Application()
     val propositions:Set<Proposition>
         get() = formulaInputPane.propositions
 
-    var output:Set<Situation>?
+    var output:Set<State>?
         get() = modelsOutputPane.trueSituations
         set(value)
         {
