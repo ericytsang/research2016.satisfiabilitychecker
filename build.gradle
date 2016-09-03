@@ -38,7 +38,7 @@ task jarGui(type: Jar, dependsOn: classes) {
         exclude "META-INF/*.RSA"
     }
     manifest {
-        attributes 'Main-Class': 'research2016.satisfiabilitychecker.gui.MainKt'
+        attributes 'Main-Class': 'com.github.ericytsang.research2016.satisfiabilitychecker.gui.MainKt'
     }
     baseName = "gui"
 }
@@ -51,7 +51,7 @@ task jarCli(type: Jar, dependsOn: classes) {
         exclude "META-INF/*.RSA"
     }
     manifest {
-        attributes 'Main-Class': 'research2016.satisfiabilitychecker.cli.MainKt'
+        attributes 'Main-Class': 'com.github.ericytsang.research2016.satisfiabilitychecker.cli.MainKt'
     }
     baseName = "cli"
 }
