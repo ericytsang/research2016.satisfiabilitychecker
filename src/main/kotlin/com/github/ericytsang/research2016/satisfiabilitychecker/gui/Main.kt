@@ -4,7 +4,6 @@ import com.github.ericytsang.research2016.propositionallogic.Proposition
 import com.github.ericytsang.research2016.propositionallogic.State
 import com.github.ericytsang.research2016.propositionallogic.tautology
 import com.github.ericytsang.research2016.propositionallogic.and
-import com.github.ericytsang.research2016.propositionallogic.models
 import kotlin.concurrent.thread
 
 /**

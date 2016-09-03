@@ -2,7 +2,6 @@ package com.github.ericytsang.research2016.satisfiabilitychecker.cli
 
 import com.github.ericytsang.research2016.propositionallogic.Proposition
 import com.github.ericytsang.research2016.propositionallogic.makeFrom
-import com.github.ericytsang.research2016.propositionallogic.models
 
 fun main(args:Array<String>)
 {
